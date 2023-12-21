@@ -187,7 +187,7 @@ const sortedGames = GAMES_JSON.sort((item1, item2) => {
 const [mostFunded, secondMostFunded] = sortedGames;
 
 // create a new element to hold the name of the top pledge game, then append it to the correct element
-const mostFundedName = document.createElement("p")
+const mostFundedName = document.createElement("p");
 mostFundedName.innerHTML = `
 ${mostFunded.name}
 `;
@@ -200,3 +200,26 @@ ${secondMostFunded.name}
 `;
 
 secondGameContainer.appendChild(secondMostFundedName);
+
+/************************************************************************************
+ * Bonus: Add in a search feature
+ */
+
+const searchInput = document.querySelector("#search");
+
+// Filter by games containing the text inside the search input
+function filterSearch() {
+    deleteChildElements(gamesContainer);
+    // Turn search input to uppercase for case insensitivity
+    let searchInputUpper = searchInput.value.toUpperCase();
+
+    // use filter() to get a list of games that contain the letters in the search input
+    const searchedGame = GAMES_JSON.filter((game) => {
+        return game.name.toUpperCase().includes(searchInputUpper);
+    });
+
+    // use the function we previously created to add unfunded games to the DOM
+    addGamesToPage(searchedGame);
+}
+
+searchInput.addEventListener("change", filterSearch);
